@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import util.Query;
 import util.Result;
 import util.Service;
+import java.time.Duration;
 import java.time.Instant;
 
 import java.util.ArrayList;
@@ -177,6 +178,7 @@ public class Node {
     }
 
     public void searchFiles(String fName) throws IOException {
+        log.info("#RT SIZE# : " + routingTable.size());
         resultObjList.clear();
         log.info("#PERF# Search started with string:" + fName);
         log.info("#PERF# Routing table size "+ routingTable.size());
@@ -184,6 +186,9 @@ public class Node {
         String str = isFilePresent(fName);
         if (str.length() > 0) {
             log.info("#PERF# Result found  Files:" + str + "Hops: " + 0 + "from local node");
+            Instant end = Instant.now();
+            Duration diff = Duration.between(getStarttime(), end);
+            log.info("#PERF TIME# Search String : "+ str + " Response latency = " + diff.toString() + " Hops count = 0");
             resultList = str.split("#");
             resultObjList.add(setResultObj(serverIP, restServicePort, resultList));
         }

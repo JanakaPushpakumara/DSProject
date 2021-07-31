@@ -146,7 +146,7 @@ public class MessageProcessor implements Runnable {
                         Instant end = Instant.now();
                         Duration diff = Duration.between(node.getStarttime(), end);
                         log.info("#PERF# Result found  Files: " + result + "Hops: " + (node.getHopCount() - Integer.parseInt(mes[5])));
-                        log.info("#PERF TIME# Response latency " + diff.toString());
+                        log.info("#PERF TIME# Search String : "+ result + " Response latency = " + diff.toString() + " Hops count = " + (node.getHopCount()- Integer.parseInt(mes[5])));
                         node.addToResultObjList(foundResult);
                     } else {
                         log.info("########## Result already exists in the Obj list. Skipped!!!  ##########");
