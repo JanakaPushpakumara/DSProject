@@ -37,6 +37,7 @@ public class HelthcheckService {
 
                     if(!neighbourHealthy){
                         nodeOneRetry +=1;
+                        log.warn(nodeOneRetry +" attempt for the neighbour 1 health check");
                         if (nodeOneRetry >retryCount){
                             node.unRegisterNode();
                             nodeOneRetry =0;}
@@ -62,6 +63,8 @@ public class HelthcheckService {
                 if (!neighbourList.isEmpty() && neighbourList.size()>1 && neighbourList.get(1) != null) {
                     boolean neighbourHealthy = checkServerHealth(neighbourList.get(1));
                     if(!neighbourHealthy){
+                        nodeTwoRetry +=1;
+                        log.warn(nodeTwoRetry +" attempt for the neighbour 1 health check");
                         if (nodeTwoRetry >retryCount){
                         node.unRegisterNode();
                         nodeTwoRetry=0;}
@@ -105,7 +108,7 @@ public class HelthcheckService {
         try {
             socket.receive(dpResponse);
         } catch (SocketTimeoutException e) {
-            log.error("Timeout reached for the Health Check API while receiving data from Boostrap server.");
+            log.error("Timeout reached for the Health Check API while receiving data node");
             socket.close();
         }
         String bsResponse = new String(dpResponse.getData(),0,dpResponse.getLength());

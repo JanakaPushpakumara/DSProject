@@ -30,7 +30,6 @@ public class MessageProcessor implements Runnable {
         this.connectedNeighbourList = node.getConnectedNeighboursList();
         this.nodeIP = nodeIP;
         this.serverPort = port;
-        this.routingTable = node.getRoutingTable();
     }
 
     @Override
@@ -99,7 +98,7 @@ public class MessageProcessor implements Runnable {
                     }
                 }
                 if (!neighbourExist) {
-                    routingTable.add(neighbour);
+                    node.getRoutingTable().add(neighbour);
                 }
 
                 joinResMessage = String.format("%04d", joinResMessage.length() + 5) + " " + joinResMessage;
@@ -111,7 +110,7 @@ public class MessageProcessor implements Runnable {
                 ip = mes[2];
                 port = Integer.parseInt(mes[3]);
                 connectedNeighbourList.removeIf(neigh -> (neigh.getIp().equals(ip) && neigh.getPort() == port));
-                node.removeDataFromRoutingTable(ip,port,routingTable);
+                node.removeDataFromRoutingTable(ip,port);
                 String leaveResMessage = "LEAVEOK " + "0";
                 leaveResMessage = String.format("%04d", leaveResMessage.length() + 5) + " " + leaveResMessage;
                 responseMsg = leaveResMessage;
@@ -132,7 +131,7 @@ public class MessageProcessor implements Runnable {
                 if (!mes[mes.length - 1].equals("0")) {
                     log.info("#MESSAGE#  #FORWARDED#");
                     String joined = String.join(" ", mes);
-                    for (Neighbour neighbour_ : routingTable) {
+                    for (Neighbour neighbour_ : node.getRoutingTable()) {
                         service.send(joined, neighbour_.getIp(), neighbour_.getPort());
                     }
                 }
