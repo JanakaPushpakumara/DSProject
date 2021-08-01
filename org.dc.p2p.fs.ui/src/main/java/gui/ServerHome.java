@@ -81,6 +81,12 @@ public class ServerHome {
     // Query flooding needs to be implemented
 
     String searchString = textField1.getText();
+    if (searchString.isEmpty()) {
+     JOptionPane.showMessageDialog(new JFrame(),
+             "Search Failed, Please enter string to search",
+             "Search Status",
+             JOptionPane.WARNING_MESSAGE);
+    } else {
 
     try {
      node.searchFiles(searchString);
@@ -103,7 +109,7 @@ public class ServerHome {
     ResultFrame.setContentPane(searchResult.SearchResult);
     ResultFrame.pack();
     ResultFrame.setVisible(true);
-
+    }
    }
   });
  }
@@ -125,7 +131,7 @@ public class ServerHome {
  private void $$$setupUI$$$() {
   ServerMain = new JPanel();
   ServerMain.setLayout(new GridLayoutManager(6, 6, new Insets(0, 0, 0, 0), -1, -1));
-  ServerMain.setPreferredSize(new Dimension(400, 210));
+  ServerMain.setPreferredSize(new Dimension(400, 250));
   ServerMain.setRequestFocusEnabled(true);
   ServerMain.setBorder(BorderFactory.createTitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
   searchButton = new JButton();
