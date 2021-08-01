@@ -76,7 +76,11 @@ public class ServerConfigurations {
         return getIntegerProperty("BS_PORT");
     }
 
-    public String getFilesStorage(){
+    public String getFilesStorageDirectory(){
+        return getStringProperty("FILE_STORAGE_DIR");
+    }
+
+    public String getFilesDownloadDirectory(){
         return getStringProperty("FILE_DOWNLOAD_DIR");
     }
 

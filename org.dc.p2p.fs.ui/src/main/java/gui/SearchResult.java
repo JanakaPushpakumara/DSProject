@@ -47,24 +47,31 @@ public class SearchResult {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedfile = (String) ResultList.getSelectedValue();
-                String[] parts = selectedfile.split(" - ");
-                selectedfile = parts[1];
-                String[] IpPort = parts[0].split(":");
-                String ServerIP = IpPort[0].substring(1,IpPort[0].length());
-                String ServerPort = IpPort[1].substring(0,IpPort[1].length()-1);
-                log.info("Downloading [" + selectedfile + "] from server node " + ServerIP + ":" + ServerPort);
-                try {
-                    downloadUtil.downloadFile(ServerIP, ServerPort, selectedfile);
+                if (selectedfile != null) {
+                    String[] parts = selectedfile.split(" - ");
+                    selectedfile = parts[1];
+                    String[] IpPort = parts[0].split(":");
+                    String ServerIP = IpPort[0].substring(1, IpPort[0].length());
+                    String ServerPort = IpPort[1].substring(0, IpPort[1].length() - 1);
+                    log.info("Downloading [" + selectedfile + "] from server node " + ServerIP + ":" + ServerPort);
+                    try {
+                        downloadUtil.downloadFile(ServerIP, ServerPort, selectedfile);
+                        JOptionPane.showMessageDialog(new JFrame(),
+                                "Download Complete \nDownload Location :" + configs.getFilesDownloadDirectory(),
+                                "Download Status",
+                                JOptionPane.NO_OPTION);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(new JFrame(),
+                                "Download Failed",
+                                "Download Status",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
                     JOptionPane.showMessageDialog(new JFrame(),
-                            "Download Complete \nDownload Location :" + configs.getFilesStorage(),
-                            "Download Status",
-                            JOptionPane.NO_OPTION);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            "Download Failed",
+                            "Download Failed, Please select a file to Download",
                             "Download Status",
                             JOptionPane.WARNING_MESSAGE);
-                };
+                }
             }
         });
     }
