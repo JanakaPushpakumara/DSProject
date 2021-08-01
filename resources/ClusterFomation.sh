@@ -12,6 +12,8 @@ FILE_NAME_TXT="$PROJECT_HOME/org.dc.p2p.fs.ui/src/main/resources/FileNames.txt";
 # Node Count ( Includign 0th node)
 NODE_COUNT=9
 
+echo "Starting the Cluster ..."
+
 for id in $(seq 0 $NODE_COUNT);
 do
   echo "Creating Node$id ..."
@@ -32,20 +34,22 @@ do
         sed -i "s/\(SERVER_NAME=\).*\$/\1${SERVER_NAME}/" Node$id/config.properties;
         FILE_NAME_LIST="\.\/Node$id\/FileNames.txt";
         sed -i "s/\(FILE_NAME_LIST=\).*\$/\1${FILE_NAME_LIST}/" Node$id/config.properties;
-        FILE_STORAGE_DIR="\.\/Node$id\/download"
+        FILE_STORAGE_DIR="\.\/Node$id\/storage"
         sed -i "s/\(FILE_STORAGE_DIR=\).*\$/\1${FILE_STORAGE_DIR}/" Node$id/config.properties;
-        FILE_DOWNLOAD_DIR="\.\/Node$id\/storage"
+        FILE_DOWNLOAD_DIR="\.\/Node$id\/download"
         sed -i "s/\(FILE_DOWNLOAD_DIR=\).*\$/\1${FILE_DOWNLOAD_DIR}/" Node$id/config.properties;
         HOP_COUNT="5"
         sed -i "s/\(HOP_COUNT=\).*\$/\1${HOP_COUNT}/" Node$id/config.properties;
 
 done
 
+echo "Starting the Cluster ..."
+
 #Start the Node in background mode
 for id in $(seq 0 $NODE_COUNT);
 do
   echo "Starting Node$id ..."
-  java -DenableTesting=true -DpropFileLocation=./Node$id/config.properties -jar  Node$id/org.dc.p2p.fs.rest.service-1.0.0.jar --spring.config.location=./Node$id/application.properties > Node$id/Node$id.log &
+  java -DpropFileLocation=./Node$id/config.properties -jar  Node$id/org.dc.p2p.fs.rest.service-1.0.0.jar --spring.config.location=./Node$id/application.properties > Node$id/Node$id.log &
   sleep 5;
 done;
 
