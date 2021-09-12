@@ -1,8 +1,13 @@
 #!/bin/bash
 
-# Define the Project home
-PROJECT_HOME="/home/janaka/Documents/MSC/ACA-S2/DC/Project/MyProject/P2PFileSharer";
-
+if [ "$#" -eq  "1" ]
+	then
+		# Define the Project home
+		PROJECT_HOME=$1;
+	else
+		echo "No arguments supplied, usage: sh ClusterFomation.sh <P2PFileSharer HOME>";
+		exit;
+fi
 
 JAR_FILE="$PROJECT_HOME/org.dc.p2p.fs.rest.service/target/org.dc.p2p.fs.rest.service-1.0.0.jar";
 SPRINGBOOT_PROPERTIES="$PROJECT_HOME/org.dc.p2p.fs.rest.service/src/main/resources/application.properties";
